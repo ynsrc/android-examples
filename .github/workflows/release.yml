@@ -1,13 +1,12 @@
 name: Release App
 
-on:
-  push:
+on: [ push, pull_request ]
     branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Fetch Sources
       uses: actions/checkout@v4
@@ -19,11 +18,11 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-
-    - name: Setup Android SDK
+    
+    - name: Set up Android SDK
       uses: android-actions/setup-android@v3
-
-    - name: Setup Gradle Cache        
+    
+    - name: Setup Gradle Cache
       uses: actions/cache@v4
       with:
         path: |
@@ -34,56 +33,43 @@ jobs:
           ${{ runner.os }}-gradle-
     
     - name: Restore Keystore File
-      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > ynsrc.keystore
-      
-    - name: Restore gradle.properties
-      run: |
-        mkdir -p ~/.gradle/
-        echo "KEYSTORE_FILE=../ynsrc.keystore" >> ~/.gradle/gradle.properties
-        echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> ~/.gradle/gradle.properties
-        echo "SIGNING_KEY_ALIAS=${{ secrets.SIGNING_KEY_ALIAS }}" >> ~/.gradle/gradle.properties
-        echo "SIGNING_KEY_PASSWORD=${{ secrets.SIGNING_KEY_PASSWORD }}" >> ~/.gradle/gradle.properties
-      shell: bash
+      if: ${{ github.event_name == 'push' }}
+      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > ${{ secrets.KEYSTORE_FILE_NAME }}
     
-    - name: Generate Version Name
-      run: echo "VERSION_NAME=${GITHUB_SHA::7}" >> $GITHUB_ENV
+    - name: Restore gradle.properties
+      if: ${{ github.event_name == 'push' }}
+      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > ~/.gradle/gradle.properties
+    
+    - name: Create Version Name
+      run: |        
+        echo "VERSION_CODE=${{ github.run_number }}" >> $GITHUB_ENV
+        echo "VERSION_NAME=0.1.0-alpha.${{ github.run_number }}+${GITHUB_SHA::7}" >> $GITHUB_ENV
+      shell: bash
     
     - name: Bump Version
       uses: chkfung/android-version-actions@v1.2.2
       with:
         gradlePath: app/build.gradle.kts
-        versionCode: ${{ github.run_number }}
+        versionCode: ${{ env.VERSION_CODE }}
         versionName: ${{ env.VERSION_NAME }}
-
+    
     - name: Grant Execute Permission
       run: chmod +x gradlew
-
+    
+    - name: Build Project
+      if: ${{ github.event_name == 'pull_request' }}
+      run: ./gradlew build --no-daemon
+    
     - name: Build Release APK
-      run: ./gradlew --no-daemon
-        -PKEYSTORE_FILE="../ynsrc.keystore"
-        -PKEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
-        -PSIGNING_KEY_ALIAS=${{ secrets.SIGNING_KEY_ALIAS }}
-        -PSIGNING_KEY_PASSWORD=${{ secrets.SIGNING_KEY_PASSWORD }}
-        app:assembleRelease
-
+      if: ${{ github.event_name == 'push' }}
+      run: ./gradlew assembleRelease --no-daemon
+    
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1.1.4
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: ${{ github.event_name == 'push' }}    
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.VERSION_NAME }}
-        release_name: Release ${{ env.VERSION_NAME }}
+        name: Release ${{ env.VERSION_NAME }}
+        files: app/build/outputs/apk/release/app-release.apk
         draft: false
         prerelease: false
-
-    - name: Upload Release APK
-      id: upload_release_asset
-      uses: actions/upload-release-asset@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: app/build/outputs/apk/release/app-release.apk
-        asset_name: ynsrc_ex${{ github.run_number }}.apk
-        asset_content_type: application/zip
