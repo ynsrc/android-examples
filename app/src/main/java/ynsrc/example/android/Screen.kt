@@ -5,7 +5,6 @@ import ynsrc.example.android.examples.BadgeExamples
 import ynsrc.example.android.examples.BottomAppBarExamples
 import ynsrc.example.android.examples.BottomSheetExamples
 import ynsrc.example.android.examples.CardExamples
-import ynsrc.example.android.examples.CarouselExamples
 import ynsrc.example.android.examples.CheckboxExamples
 import ynsrc.example.android.examples.ChipExamples
 import ynsrc.example.android.examples.CommonButtonExamples
@@ -55,7 +54,6 @@ enum class Screen(
     SEGMENTED_BUTTONS(title = "SEGMENTED BUTTONS", parent = BUTTONS, content = { SegmentedButtonExamples() }),
 
     CARDS(title = "CARDS", parent = UI, content = { CardExamples() }),
-    CAROUSEL(title = "CAROUSEL", parent = UI, content = { CarouselExamples() }),
     CHECKBOX(title = "CHECKBOX", parent = UI, content = { CheckboxExamples() }),
     CHIPS(title = "CHIPS", parent = UI, content = { ChipExamples() }),
     DATE_PICKERS(title = "DATE PICKERS", parent = UI, content = { DatePickerExamples() }),
@@ -74,7 +72,7 @@ enum class Screen(
     SEARCH(title = "SEARCH", parent = UI, content = { SearchExamples() }),
 
     SHEETS(title = "SHEETS", parent = UI),
-    BOTTOM_SHEETS(title = "BOTTOM SHEETS", parent = BOTTOM_SHEETS, content = { BottomSheetExamples() }),
+    BOTTOM_SHEETS(title = "BOTTOM SHEETS", parent = SHEETS, content = { BottomSheetExamples() }),
 
     SLIDERS(title = "SLIDERS", parent = UI, content = { SliderExamples() }),
     SNACKBAR(title = "SNACKBAR", parent = UI, content = { SnackbarExamples() }),

@@ -40,10 +40,6 @@ fun NavigationDrawerExamples() {
 
     var selectedItem by remember { mutableStateOf(items[0]) }
 
-    Button(onClick = { scope.launch { drawerState.open() } }) {
-        Text(text = "Show Navigation Drawer")
-    }
-
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = { ModalDrawerSheet {
@@ -68,7 +64,9 @@ fun NavigationDrawerExamples() {
         } }
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "Content")
+            Button(onClick = { scope.launch { drawerState.open() } }) {
+                Text(text = "Show Navigation Drawer")
+            }
         }
     }
 }

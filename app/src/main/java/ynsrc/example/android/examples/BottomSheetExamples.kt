@@ -22,7 +22,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheetExamples() {
-    Column {
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
         val scope = rememberCoroutineScope()
         val sheetState = rememberModalBottomSheetState()
         var showBottomSheet by remember { mutableStateOf(false) }

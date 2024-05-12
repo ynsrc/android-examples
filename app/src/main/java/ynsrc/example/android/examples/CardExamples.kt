@@ -19,7 +19,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CardExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         Card(
             modifier = Modifier.fillMaxWidth().height(80.dp)
         ) {

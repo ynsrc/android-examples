@@ -1,6 +1,7 @@
 package ynsrc.example.android.examples
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Close
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,6 +27,7 @@ fun SearchExamples() {
 
     Column {
         SearchBar(
+            modifier = Modifier.fillMaxWidth(),
             query = searchQuery,
             onQueryChange = { searchQuery = it },
             onSearch = { },

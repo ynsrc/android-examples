@@ -20,19 +20,19 @@ import androidx.compose.ui.tooling.preview.Preview
 fun BottomAppBarExamples() {
     BottomAppBar(
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {  }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
             }
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {  }) {
                 Icon(imageVector = Icons.Default.Edit, contentDescription = null)
             }
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {  }) {
                 Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
             }
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { }) {
                 Icon(imageVector = Icons.Default.Favorite, contentDescription = null)
             }
         },
