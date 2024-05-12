@@ -67,5 +67,6 @@ jobs:
         tag_name: ${{ env.VERSION_NAME }}
         name: Release ${{ env.VERSION_NAME }}
         files: app/build/outputs/apk/release/app-release.apk
+        make_latest: true
         draft: false
         prerelease: false
