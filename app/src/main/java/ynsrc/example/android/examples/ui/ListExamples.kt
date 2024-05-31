@@ -1,4 +1,4 @@
-package ynsrc.example.android.examples
+package ynsrc.example.android.examples.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons

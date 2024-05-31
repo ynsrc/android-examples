@@ -1,4 +1,4 @@
-package ynsrc.example.android.examples
+package ynsrc.example.android.examples.ui
 
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
