@@ -5,6 +5,7 @@ import ynsrc.example.android.examples.hw.camera.CameraExample
 import ynsrc.example.android.examples.hw.microphone.MicrophoneExample
 import ynsrc.example.android.examples.hw.nfc.NfcExample
 import ynsrc.example.android.examples.hw.sensors.SensorExamples
+import ynsrc.example.android.examples.sysinfo.BatteryInformationExample
 import ynsrc.example.android.examples.sysinfo.BuildInformationExample
 import ynsrc.example.android.examples.ui.BadgeExamples
 import ynsrc.example.android.examples.ui.BottomAppBarExamples
@@ -99,5 +100,7 @@ enum class Screen(
     SYSTEM_INFORMATION(title = "SYSTEM INFORMATION", parent = HOME),
 
     BUILD_INFORMATION(title = "BUILD INFORMATION", parent = SYSTEM_INFORMATION, content = { BuildInformationExample() }),
+
+    BATTERY_INFORMATION(title = "BATTERY INFORMATION", parent = SYSTEM_INFORMATION, content = { BatteryInformationExample() })
 
 }
