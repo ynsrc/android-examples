@@ -12,11 +12,11 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TabExamples() {
-    var tabs = listOf("First", "Second", "Third")
+    val tabs = listOf("First", "Second", "Third")
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     TabRow(selectedTabIndex = selectedTabIndex) {
-        tabs.forEachIndexed { index, tab ->
+        tabs.forEachIndexed { index, _ ->
             Tab(
                 selected = selectedTabIndex == index,
                 onClick = { selectedTabIndex = index }

@@ -1,7 +1,6 @@
 package ynsrc.example.android.examples.ui
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode

@@ -23,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -96,21 +97,24 @@ fun MainLayout() {
                                 scope.launch {
                                     val snackbarResult = snackbarHostState.showSnackbar(
                                         message = "This is an example action.",
-                                        actionLabel = "Perform Action"
+                                        actionLabel = "Perform Action",
+                                        duration = SnackbarDuration.Short
                                     )
 
                                     when (snackbarResult) {
                                         SnackbarResult.ActionPerformed -> {
                                             snackbarHostState.showSnackbar(
                                                 message = "Action performed!",
-                                                withDismissAction = true
+                                                withDismissAction = true,
+                                                duration = SnackbarDuration.Short
                                             )
                                         }
 
                                         SnackbarResult.Dismissed -> {
                                             snackbarHostState.showSnackbar(
                                                 message = "Snackbar dismissed!",
-                                                withDismissAction = true
+                                                withDismissAction = true,
+                                                duration = SnackbarDuration.Short
                                             )
                                         }
                                     }

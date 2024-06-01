@@ -30,7 +30,7 @@ fun RadioButtonExamples() {
 
         var selectedItem by remember { mutableStateOf(items[0]) }
 
-        items.forEachIndexed { index, item ->
+        items.forEachIndexed { _, item ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,

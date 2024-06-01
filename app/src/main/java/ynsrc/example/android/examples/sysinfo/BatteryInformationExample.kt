@@ -137,7 +137,7 @@ fun BatteryInformationExample() {
                 BatteryManager.BATTERY_PLUGGED_AC -> "AC"
                 BatteryManager.BATTERY_PLUGGED_USB -> "USB"
                 BatteryManager.BATTERY_PLUGGED_DOCK -> "DOCK"
-                BatteryManager.BATTERY_PLUGGED_WIRELESS -> "WIRELES"
+                BatteryManager.BATTERY_PLUGGED_WIRELESS -> "WIRELESS"
                 else -> "UNKNOWN"
             })
         }

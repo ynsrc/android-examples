@@ -44,7 +44,6 @@ fun CameraExample() {
             }
         }
     } else {
-        val cameraList = listOf(CameraSelector.DEFAULT_BACK_CAMERA, CameraSelector.DEFAULT_FRONT_CAMERA)
         var showFrontCamera by remember { mutableStateOf(false) }
 
         Column {
