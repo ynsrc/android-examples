@@ -2,6 +2,7 @@ package ynsrc.example.android.examples.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,31 +15,34 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerExamples() {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
 
-        DatePicker(
-            state = rememberDatePickerState(
-                initialDisplayMode = DisplayMode.Input,
-                yearRange = IntRange(2023, 2025)
+        item {
+            DatePicker(
+                state = rememberDatePickerState(
+                    initialDisplayMode = DisplayMode.Input,
+                    yearRange = IntRange(2023, 2025)
+                )
             )
-        )
+        }
 
-        DatePicker(
-            state = rememberDatePickerState(
-                selectableDates = object : SelectableDates {
+        item {
+            DatePicker(
+                state = rememberDatePickerState(
+                    selectableDates = object : SelectableDates {
 
-                    override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                        return true
+                        override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                            return true
+                        }
+
+                        override fun isSelectableYear(year: Int): Boolean {
+                            return year in IntRange(1990, 2030)
+                        }
+
                     }
-
-                    override fun isSelectableYear(year: Int): Boolean {
-                        return year in IntRange(1990, 2030)
-                    }
-
-                }
+                )
             )
-        )
-
+        }
     }
 }
 

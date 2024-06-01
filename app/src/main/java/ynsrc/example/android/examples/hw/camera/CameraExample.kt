@@ -40,35 +40,39 @@ fun CameraExample() {
     if (!cameraPermissionState.status.isGranted) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
-                Text("Request Permissions")
+                Text("Request Permission")
             }
         }
     } else {
         val cameraList = listOf(CameraSelector.DEFAULT_BACK_CAMERA, CameraSelector.DEFAULT_FRONT_CAMERA)
-        var selectedCamera by remember { mutableStateOf(cameraList[0]) }
+        var showFrontCamera by remember { mutableStateOf(false) }
 
         Column {
-            TabRow(cameraList.indexOf(selectedCamera)) {
-                cameraList.forEach { camera ->
-                    Tab(
-                        selected = selectedCamera == camera,
-                        onClick = { selectedCamera = camera },
-                        text = {
-                            Text(
-                                when (camera) {
-                                    CameraSelector.DEFAULT_BACK_CAMERA -> "Back"
-                                    else -> "Front"
-                                }
-                            )
-                        }
-                    )
-                }
+            TabRow(if (showFrontCamera) 1 else 0) {
+                Tab(
+                    selected = !showFrontCamera,
+                    onClick = { showFrontCamera = false },
+                    text = { Text("Back") }
+                )
+
+                Tab(
+                    selected = showFrontCamera,
+                    onClick = { showFrontCamera = true },
+                    text = { Text("Front") }
+                )
             }
 
-            CameraPreview(
-                modifier = Modifier.fillMaxSize(),
-                cameraSelector = selectedCamera
-            )
+            if (showFrontCamera) {
+                CameraPreview(
+                    modifier = Modifier.fillMaxSize(),
+                    cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
+                )
+            } else {
+                CameraPreview(
+                    modifier = Modifier.fillMaxSize(),
+                    cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+                )
+            }
         }
     }
 }
@@ -76,8 +80,8 @@ fun CameraExample() {
 @Composable
 fun CameraPreview(
     modifier: Modifier = Modifier,
-    scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
-    cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+    cameraSelector: CameraSelector,
+    scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER
 ) {
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current

@@ -5,8 +5,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,13 +15,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,21 +36,6 @@ fun SensorExamples() {
     val context = LocalContext.current
     val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     var selectedSensor: Sensor? by remember { mutableStateOf(null) }
-    var accuracyValue by remember { mutableIntStateOf(0) }
-    var sensorValues by remember { mutableStateOf(FloatArray(0)) }
-    val sensorEventListener = remember {
-        object : SensorEventListener {
-            override fun onSensorChanged(event: SensorEvent?) {
-                event?.values?.let { newValues ->
-                    sensorValues = newValues
-                }
-            }
-
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-                accuracyValue = accuracy
-            }
-        }
-    }
 
     if (selectedSensor == null) {
         LazyColumn {
@@ -72,26 +57,45 @@ fun SensorExamples() {
             }
         }
     } else selectedSensor?.let { sensor ->
-        sensorManager.registerListener(
-            sensorEventListener,
-            sensor,
-            sensor.minDelay
-        )
+        var accuracyValue by remember { mutableIntStateOf(0) }
+        val sensorValues  = remember { mutableStateListOf<Float>() }
+        val sensorEventListener = remember {
+            object : SensorEventListener {
+                override fun onSensorChanged(event: SensorEvent?) {
+                    event?.values?.let { newValues ->
+                        sensorValues.clear()
+                        sensorValues.addAll(newValues.toList())
+                    }
+                }
 
-        BackHandler {
-            runCatching { sensorManager.unregisterListener(sensorEventListener) }
-            selectedSensor = null
+                override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+                    accuracyValue = accuracy
+                }
+            }
         }
+
+        LaunchedEffect(Unit) {
+            sensorManager.registerListener(
+                sensorEventListener,
+                sensor,
+                SensorManager.SENSOR_DELAY_UI
+            )
+        }
+
+        DisposableEffect(Unit) {
+            onDispose {
+                runCatching { sensorManager.unregisterListener(sensorEventListener) }
+            }
+        }
+
+        BackHandler { selectedSensor = null }
 
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = {
-                    runCatching { sensorManager.unregisterListener(sensorEventListener) }
-                    selectedSensor = null
-                }) {
+                IconButton(onClick = { selectedSensor = null }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = null
@@ -101,7 +105,7 @@ fun SensorExamples() {
 
             Text("Sensor: ${sensor.name}")
             Text("Accuracy: $accuracyValue")
-            Text("Values: ")
+            Text("Values (${sensorValues.size}): ")
             sensorValues.forEachIndexed { index, fl ->
                 Text("[$index] = $fl")
             }

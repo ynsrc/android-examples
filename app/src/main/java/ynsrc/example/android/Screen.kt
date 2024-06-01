@@ -1,6 +1,9 @@
 package ynsrc.example.android
 
 import androidx.compose.runtime.Composable
+import ynsrc.example.android.examples.hw.camera.CameraExample
+import ynsrc.example.android.examples.hw.microphone.MicrophoneExample
+import ynsrc.example.android.examples.hw.sensors.SensorExamples
 import ynsrc.example.android.examples.ui.BadgeExamples
 import ynsrc.example.android.examples.ui.BottomAppBarExamples
 import ynsrc.example.android.examples.ui.BottomSheetExamples
@@ -30,8 +33,6 @@ import ynsrc.example.android.examples.ui.TabExamples
 import ynsrc.example.android.examples.ui.TextFieldExamples
 import ynsrc.example.android.examples.ui.TimePickerExamples
 import ynsrc.example.android.examples.ui.TopAppBarExamples
-import ynsrc.example.android.examples.hw.camera.CameraExample
-import ynsrc.example.android.examples.hw.sensors.SensorExamples
 
 enum class Screen(
     val title: String,
@@ -86,6 +87,8 @@ enum class Screen(
     HARDWARE(title = "HARDWARE (HW)", parent = HOME),
 
     CAMERA(title = "CAMERA", parent = HARDWARE, content = { CameraExample() }),
+
+    MICROPHONE(title = "MICROPHONE", parent = HARDWARE, content = { MicrophoneExample() }),
 
     SENSORS(title = "SENSORS", parent = HARDWARE, content = { SensorExamples() }),
 }
