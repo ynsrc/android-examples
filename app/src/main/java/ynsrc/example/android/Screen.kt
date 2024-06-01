@@ -3,7 +3,9 @@ package ynsrc.example.android
 import androidx.compose.runtime.Composable
 import ynsrc.example.android.examples.hw.camera.CameraExample
 import ynsrc.example.android.examples.hw.microphone.MicrophoneExample
+import ynsrc.example.android.examples.hw.nfc.NfcExample
 import ynsrc.example.android.examples.hw.sensors.SensorExamples
+import ynsrc.example.android.examples.sysinfo.BuildInformationExample
 import ynsrc.example.android.examples.ui.BadgeExamples
 import ynsrc.example.android.examples.ui.BottomAppBarExamples
 import ynsrc.example.android.examples.ui.BottomSheetExamples
@@ -91,4 +93,11 @@ enum class Screen(
     MICROPHONE(title = "MICROPHONE", parent = HARDWARE, content = { MicrophoneExample() }),
 
     SENSORS(title = "SENSORS", parent = HARDWARE, content = { SensorExamples() }),
+
+    NFC(title = "NFC", parent = HARDWARE, content = { NfcExample() }),
+
+    SYSTEM_INFORMATION(title = "SYSTEM INFORMATION", parent = HOME),
+
+    BUILD_INFORMATION(title = "BUILD INFORMATION", parent = SYSTEM_INFORMATION, content = { BuildInformationExample() }),
+
 }

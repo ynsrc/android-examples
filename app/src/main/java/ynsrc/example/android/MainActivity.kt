@@ -157,7 +157,10 @@ fun MainLayout() {
                             contentDescription = null
                         )
 
-                        Text(text = screens[index].title)
+                        Text(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            text = screens[index].title
+                        )
                     }
                 }
             }
