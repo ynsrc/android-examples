@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import kotlin.math.abs
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -77,13 +79,16 @@ fun MicrophoneExample() {
         }
 
         LaunchedEffect(Unit) {
-            scope.launch {
+            scope.launch(Dispatchers.Default) {
+                val buffer = ShortArray(minBufferSize)
+
                 audioRecord.startRecording()
 
-                val buffer = ShortArray(minBufferSize)
-                audioRecord.read(buffer, 0, minBufferSize)
-                maxValue = buffer.maxOf { abs(it.toInt()) }
-
+                while (true) {
+                    audioRecord.read(buffer, 0, minBufferSize)
+                    maxValue = buffer.maxOf { abs(it.toInt()) }
+                    yield()
+                }
             }
         }
 
