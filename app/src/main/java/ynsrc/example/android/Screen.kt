@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import ynsrc.example.android.examples.hw.camera.CameraExample
 import ynsrc.example.android.examples.hw.microphone.MicrophoneExample
 import ynsrc.example.android.examples.hw.nfc.NfcExample
+import ynsrc.example.android.examples.hw.sensors.CompassExample
 import ynsrc.example.android.examples.hw.sensors.SensorExamples
 import ynsrc.example.android.examples.sysinfo.BatteryInformationExample
 import ynsrc.example.android.examples.sysinfo.BuildInformationExample
@@ -93,7 +94,11 @@ enum class Screen(
 
     MICROPHONE(title = "MICROPHONE", parent = HARDWARE, content = { MicrophoneExample() }),
 
-    SENSORS(title = "SENSORS", parent = HARDWARE, content = { SensorExamples() }),
+    SENSORS(title = "SENSORS", parent = HARDWARE),
+
+    ALL_SENSORS(title = "ALL SENSORS", parent=SENSORS, content = { SensorExamples() }),
+
+    COMPASS(title = "COMPASS", parent = SENSORS, content = { CompassExample() }),
 
     NFC(title = "NFC", parent = HARDWARE, content = { NfcExample() }),
 
