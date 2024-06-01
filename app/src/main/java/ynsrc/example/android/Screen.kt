@@ -30,6 +30,8 @@ import ynsrc.example.android.examples.ui.TabExamples
 import ynsrc.example.android.examples.ui.TextFieldExamples
 import ynsrc.example.android.examples.ui.TimePickerExamples
 import ynsrc.example.android.examples.ui.TopAppBarExamples
+import ynsrc.example.android.examples.hw.camera.CameraExample
+import ynsrc.example.android.examples.hw.sensors.SensorExamples
 
 enum class Screen(
     val title: String,
@@ -80,4 +82,10 @@ enum class Screen(
     TABS(title = "TABS", parent = UI, content = { TabExamples() }),
     TEXT_FIELDS(title = "TEXT FIELDS", parent = UI, content = { TextFieldExamples() }),
     TIME_PICKERS(title = "TIME PICKERS", parent = UI, content = { TimePickerExamples() }),
+
+    HARDWARE(title = "HARDWARE (HW)", parent = HOME),
+
+    CAMERA(title = "CAMERA", parent = HARDWARE, content = { CameraExample() }),
+
+    SENSORS(title = "SENSORS", parent = HARDWARE, content = { SensorExamples() }),
 }
