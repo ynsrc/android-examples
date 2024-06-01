@@ -41,7 +41,9 @@ jobs:
     
     - name: Restore gradle.properties
       if: ${{ github.event_name == 'push' }}
-      run: echo "${{ secrets.BUILD_GRADLE_FILE }}" | base64 -d > ~/.gradle/gradle.properties
+      run: |
+        mkdir -p ~/.gradle
+        echo "${{ secrets.BUILD_GRADLE_FILE }}" | base64 -d > ~/.gradle/gradle.properties
     
     - name: Release Version Info
       run: |        
