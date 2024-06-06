@@ -26,6 +26,7 @@ import ynsrc.example.android.examples.ui.MenuExamples
 import ynsrc.example.android.examples.ui.NavigationBarExamples
 import ynsrc.example.android.examples.ui.NavigationDrawerExamples
 import ynsrc.example.android.examples.ui.NavigationRailExamples
+import ynsrc.example.android.examples.ui.NotificationExamples
 import ynsrc.example.android.examples.ui.ProgressIndicatorExamples
 import ynsrc.example.android.examples.ui.RadioButtonExamples
 import ynsrc.example.android.examples.ui.SearchExamples
@@ -73,6 +74,8 @@ enum class Screen(
     NAVIGATION_BAR(title = "NAVIGATION BAR", parent = NAVIGATION, content = { NavigationBarExamples() }),
     NAVIGATION_DRAWER(title = "NAVIGATION DRAWER", parent = NAVIGATION, content = { NavigationDrawerExamples() }),
     NAVIGATION_RAIL(title = "NAVIGATION RAIL", parent = NAVIGATION, content = { NavigationRailExamples() }),
+
+    NOTIFICATION(title = "NOTIFICATION", parent=UI, content = { NotificationExamples() }),
 
     PROGRESS_INDICATORS(title = "PROGRESS INDICATORS", parent = UI, content = { ProgressIndicatorExamples() }),
     RADIO_BUTTON(title = "RADIO BUTTON", parent = UI, content = { RadioButtonExamples() }),
