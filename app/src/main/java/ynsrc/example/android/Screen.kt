@@ -6,8 +6,10 @@ import ynsrc.example.android.examples.hw.microphone.MicrophoneExample
 import ynsrc.example.android.examples.hw.nfc.NfcExample
 import ynsrc.example.android.examples.hw.sensors.CompassExample
 import ynsrc.example.android.examples.hw.sensors.SensorExamples
+import ynsrc.example.android.examples.shell.SimpleTerminalExample
 import ynsrc.example.android.examples.sysinfo.BatteryInformationExample
 import ynsrc.example.android.examples.sysinfo.BuildInformationExample
+import ynsrc.example.android.examples.sysinfo.EnvironmentVariablesExample
 import ynsrc.example.android.examples.ui.BadgeExamples
 import ynsrc.example.android.examples.ui.BottomAppBarExamples
 import ynsrc.example.android.examples.ui.BottomSheetExamples
@@ -109,6 +111,11 @@ enum class Screen(
 
     BUILD_INFORMATION(title = "BUILD INFORMATION", parent = SYSTEM_INFORMATION, content = { BuildInformationExample() }),
 
-    BATTERY_INFORMATION(title = "BATTERY INFORMATION", parent = SYSTEM_INFORMATION, content = { BatteryInformationExample() })
+    BATTERY_INFORMATION(title = "BATTERY INFORMATION", parent = SYSTEM_INFORMATION, content = { BatteryInformationExample() }),
 
+    ENVIRONMENT_VARIABLES(title = "ENVIRONMENT VARIABLES", parent = SYSTEM_INFORMATION, content = { EnvironmentVariablesExample() }),
+
+    SHELL(title="SHELL", parent=HOME),
+
+    TERMINAL(title="SIMPLE TERMINAL", parent=SHELL, content = { SimpleTerminalExample() }),
 }
