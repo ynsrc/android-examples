@@ -44,24 +44,33 @@ import ynsrc.example.android.examples.ui.TopAppBarExamples
 enum class Screen(
     val title: String,
     val parent: Screen? = null,
-    val content: (@Composable ()->Unit)? = null
+    val content: (@Composable () -> Unit)? = null
 ) {
     HOME(title = "HOME"),
 
     UI(title = "USER INTERFACE (UI)", parent = HOME),
 
     APP_BARS(title = "APP BARS", parent = UI),
-    BOTTOM_APP_BAR(title = "BOTTOM APP BAR", parent = APP_BARS, content = { BottomAppBarExamples() }),
+    BOTTOM_APP_BAR(
+        title = "BOTTOM APP BAR",
+        parent = APP_BARS,
+        content = { BottomAppBarExamples() }),
     TOP_APP_BAR(title = "TOP APP BAR", parent = APP_BARS, content = { TopAppBarExamples() }),
 
     BADGES(title = "BADGES", parent = UI, content = { BadgeExamples() }),
 
     BUTTONS(title = "BUTTONS", parent = UI),
-    COMMON_BUTTONS(title = "COMMON BUTTONS", parent = BUTTONS, content = { CommonButtonExamples() }),
+    COMMON_BUTTONS(
+        title = "COMMON BUTTONS",
+        parent = BUTTONS,
+        content = { CommonButtonExamples() }),
     FAB(title = "FAB", parent = BUTTONS, content = { FABExamples() }),
     EXTENDED_FAB(title = "EXTENDED FAB", parent = BUTTONS, content = { ExtendedFABExamples() }),
     ICON_BUTTONS(title = "ICON BUTTONS", parent = BUTTONS, content = { IconButtonExamples() }),
-    SEGMENTED_BUTTONS(title = "SEGMENTED BUTTONS", parent = BUTTONS, content = { SegmentedButtonExamples() }),
+    SEGMENTED_BUTTONS(
+        title = "SEGMENTED BUTTONS",
+        parent = BUTTONS,
+        content = { SegmentedButtonExamples() }),
 
     CARDS(title = "CARDS", parent = UI, content = { CardExamples() }),
     CHECKBOX(title = "CHECKBOX", parent = UI, content = { CheckboxExamples() }),
@@ -73,13 +82,25 @@ enum class Screen(
     MENUS(title = "MENUS", parent = UI, content = { MenuExamples() }),
 
     NAVIGATION(title = "NAVIGATION", parent = UI),
-    NAVIGATION_BAR(title = "NAVIGATION BAR", parent = NAVIGATION, content = { NavigationBarExamples() }),
-    NAVIGATION_DRAWER(title = "NAVIGATION DRAWER", parent = NAVIGATION, content = { NavigationDrawerExamples() }),
-    NAVIGATION_RAIL(title = "NAVIGATION RAIL", parent = NAVIGATION, content = { NavigationRailExamples() }),
+    NAVIGATION_BAR(
+        title = "NAVIGATION BAR",
+        parent = NAVIGATION,
+        content = { NavigationBarExamples() }),
+    NAVIGATION_DRAWER(
+        title = "NAVIGATION DRAWER",
+        parent = NAVIGATION,
+        content = { NavigationDrawerExamples() }),
+    NAVIGATION_RAIL(
+        title = "NAVIGATION RAIL",
+        parent = NAVIGATION,
+        content = { NavigationRailExamples() }),
 
-    NOTIFICATION(title = "NOTIFICATION", parent=UI, content = { NotificationExamples() }),
+    NOTIFICATION(title = "NOTIFICATION", parent = UI, content = { NotificationExamples() }),
 
-    PROGRESS_INDICATORS(title = "PROGRESS INDICATORS", parent = UI, content = { ProgressIndicatorExamples() }),
+    PROGRESS_INDICATORS(
+        title = "PROGRESS INDICATORS",
+        parent = UI,
+        content = { ProgressIndicatorExamples() }),
     RADIO_BUTTON(title = "RADIO BUTTON", parent = UI, content = { RadioButtonExamples() }),
     SEARCH(title = "SEARCH", parent = UI, content = { SearchExamples() }),
 
@@ -101,7 +122,7 @@ enum class Screen(
 
     SENSORS(title = "SENSORS", parent = HARDWARE),
 
-    ALL_SENSORS(title = "ALL SENSORS", parent=SENSORS, content = { SensorExamples() }),
+    ALL_SENSORS(title = "ALL SENSORS", parent = SENSORS, content = { SensorExamples() }),
 
     COMPASS(title = "COMPASS", parent = SENSORS, content = { CompassExample() }),
 
@@ -109,13 +130,22 @@ enum class Screen(
 
     SYSTEM_INFORMATION(title = "SYSTEM INFORMATION", parent = HOME),
 
-    BUILD_INFORMATION(title = "BUILD INFORMATION", parent = SYSTEM_INFORMATION, content = { BuildInformationExample() }),
+    BUILD_INFORMATION(
+        title = "BUILD INFORMATION",
+        parent = SYSTEM_INFORMATION,
+        content = { BuildInformationExample() }),
 
-    BATTERY_INFORMATION(title = "BATTERY INFORMATION", parent = SYSTEM_INFORMATION, content = { BatteryInformationExample() }),
+    BATTERY_INFORMATION(
+        title = "BATTERY INFORMATION",
+        parent = SYSTEM_INFORMATION,
+        content = { BatteryInformationExample() }),
 
-    ENVIRONMENT_VARIABLES(title = "ENVIRONMENT VARIABLES", parent = SYSTEM_INFORMATION, content = { EnvironmentVariablesExample() }),
+    ENVIRONMENT_VARIABLES(
+        title = "ENVIRONMENT VARIABLES",
+        parent = SYSTEM_INFORMATION,
+        content = { EnvironmentVariablesExample() }),
 
-    SHELL(title="SHELL", parent=HOME),
+    SHELL(title = "SHELL", parent = HOME),
 
-    TERMINAL(title="SIMPLE TERMINAL", parent=SHELL, content = { SimpleTerminalExample() }),
+    TERMINAL(title = "SIMPLE TERMINAL", parent = SHELL, content = { SimpleTerminalExample() }),
 }
