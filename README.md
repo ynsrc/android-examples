@@ -1,6 +1,6 @@
 # Example Android Project
 
-This is an example Android project with Github's Android CI build workflow.
+This is an example Kotlin+Android project with Github's Android CI build workflow.
 
 # Screenshots
 
