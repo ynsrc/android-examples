@@ -39,7 +39,7 @@ jobs:
       if: ${{ github.event_name == 'push' }}
       run: |
         mkdir -p ~/.gradle
-        echo "${{ secrets.GRADLE_PROPERTIES_FILE }}" | base64 -d > ~/.gradle/gradle.properties
+        echo "${{ secrets.GRADLE_PROPERTIES_FILE }}" > ~/.gradle/gradle.properties
     
     - name: Restore Keystore File
       if: ${{ github.event_name == 'push' }}
