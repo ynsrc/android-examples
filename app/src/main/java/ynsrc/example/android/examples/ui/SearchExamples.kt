@@ -10,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,35 +29,41 @@ fun SearchExamples() {
     Column {
         SearchBar(
             modifier = Modifier.fillMaxWidth(),
-            query = searchQuery,
-            onQueryChange = { searchQuery = it },
-            onSearch = { },
-            active = isActive,
-            onActiveChange = { isActive = it },
-            placeholder = { Text(text = "Type to search") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null
+            inputField = {
+                SearchBarDefaults.InputField(
+                    query = searchQuery,
+                    onQueryChange = { searchQuery = it },
+                    onSearch = { },
+                    expanded = isActive,
+                    onExpandedChange = { isActive = it },
+                    placeholder = { Text(text = "Type to search") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null
+                        )
+                    },
+                    trailingIcon = {
+                        if (isActive) {
+                            IconButton(
+                                onClick = {
+                                    isActive = false
+                                    searchQuery = ""
+                                }
+                            ) {
+                                Icon(imageVector = Icons.Default.Close, contentDescription = null)
+                            }
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 )
             },
-            trailingIcon = {
-                if (isActive) {
-                    IconButton(
-                        onClick = {
-                            isActive = false
-                            searchQuery = ""
-                        }
-                    ) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = null)
-                    }
-                } else {
-                    Icon(
-                        imageVector = Icons.Default.AccountCircle,
-                        contentDescription = null
-                    )
-                }
-            }
+            expanded = isActive,
+            onExpandedChange = { isActive = it }
         ) {
             if (searchQuery.isNotEmpty()) {
                 Text(text = "Search Results for $searchQuery")

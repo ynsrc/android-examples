@@ -82,9 +82,12 @@ fun NfcExample() {
                 nfcAdapter.nfcAntennaInfo?.let { antennaInfo ->
                     item { Text("Device Width: ${antennaInfo.deviceWidth}") }
                     item { Text("Device Height: ${antennaInfo.deviceHeight}") }
-                    item { Text("Device Height: ${antennaInfo.isDeviceFoldable}") }
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.CINNAMON_BUN) {
+                        @Suppress("DEPRECATION")
+                        item { Text("IsDeviceFoldable: ${antennaInfo.isDeviceFoldable}") }
+                    }
                     antennaInfo.availableNfcAntennas.forEachIndexed { index, antenna ->
-                        item { "Antenna $index located at (${antenna.locationX}, ${antenna.locationY})" }
+                        item { Text("Antenna $index located at (${antenna.locationX}, ${antenna.locationY})") }
                     }
                 }
             }
@@ -108,58 +111,64 @@ fun NfcExampleTag(tag: Tag) {
         tag.techList.forEach { tech ->
             when (tech) {
                 "android.nfc.tech.IsoDep" -> {
-                    val isoDep = IsoDep.get(tag)
-                    Text("IsoDep: ")
-                    Text("-Extended Length Apdu Supported: ${isoDep.isExtendedLengthApduSupported}")
-                    Text("-Historical Bytes: ${isoDep.historicalBytes.toHexString()}")
-                    Text("-Hi Layer Response: ${isoDep.hiLayerResponse.toHexString()}")
+                    IsoDep.get(tag)?.let { isoDep ->
+                        Text("IsoDep: ")
+                        Text("-Extended Length Apdu Supported: ${isoDep.isExtendedLengthApduSupported}")
+                        Text("-Historical Bytes: ${isoDep.historicalBytes.toHexString()}")
+                        Text("-Hi Layer Response: ${isoDep.hiLayerResponse.toHexString()}")
+                    }
                 }
 
                 "android.nfc.tech.NfcA" -> {
-                    val nfcA = NfcA.get(tag)
-                    Text("NfcA: ")
-                    Text("-SAK/SEL_RES: ${nfcA.sak}")
-                    Text("-ATQA/SENS_RES: ${nfcA.atqa.toHexString()}")
+                    NfcA.get(tag)?.let { nfcA ->
+                        Text("NfcA: ")
+                        Text("-SAK/SEL_RES: ${nfcA.sak}")
+                        Text("-ATQA/SENS_RES: ${nfcA.atqa.toHexString()}")
+                    }
                 }
 
                 "android.nfc.tech.NfcB" -> {
-                    val nfcB = NfcB.get(tag)
-                    Text("NfcB: ")
-                    Text("-Protocol Info: ${nfcB.protocolInfo.toHexString()}")
-                    Text("-Application Data: ${nfcB.applicationData.toHexString()}")
+                    NfcB.get(tag)?.let { nfcB ->
+                        Text("NfcB: ")
+                        Text("-Protocol Info: ${nfcB.protocolInfo.toHexString()}")
+                        Text("-Application Data: ${nfcB.applicationData.toHexString()}")
+                    }
                 }
 
                 "android.nfc.tech.NfcF" -> {
-                    val nfcF = NfcF.get(tag)
-                    Text("NfcF: ")
-                    Text("-SystemCode: ${nfcF.systemCode.toHexString()}")
-                    Text("-Manufacturer: ${nfcF.manufacturer.toHexString()}")
+                    NfcF.get(tag)?.let { nfcF ->
+                        Text("NfcF: ")
+                        Text("-SystemCode: ${nfcF.systemCode.toHexString()}")
+                        Text("-Manufacturer: ${nfcF.manufacturer.toHexString()}")
+                    }
                 }
 
                 "android.nfc.tech.NfcV" -> {
-                    val nfcV = NfcV.get(tag)
-                    Text("NfcV: ")
-                    Text("-DSF ID: ${nfcV.dsfId}")
-                    Text("-Response Flags: ${nfcV.responseFlags}")
+                    NfcV.get(tag)?.let { nfcV ->
+                        Text("NfcV: ")
+                        Text("-DSF ID: ${nfcV.dsfId}")
+                        Text("-Response Flags: ${nfcV.responseFlags}")
+                    }
                 }
 
                 "android.nfc.tech.Ndef" -> {
-                    val nDef = Ndef.get(tag)
-                    Text("Ndef: ")
-                    Text("Type: ${nDef.type}")
-                    Text("Connected: ${nDef.isConnected}")
-                    Text("Writable: ${nDef.isWritable}")
-                    nDef.cachedNdefMessage?.records?.forEach { record ->
-                        Text("Cached Record #${record.id}")
-                        Text("-TNF: ${record.tnf}")
-                        Text("-Type: ${record.type.toHexString()}")
-                        Text("-Payload: ${record.payload.toHexString()}")
-                    }
-                    nDef.ndefMessage?.records?.forEach { record ->
-                        Text("Message Record #${record.id}")
-                        Text("-TNF: ${record.tnf}")
-                        Text("-Type: ${record.type.toHexString()}")
-                        Text("-Payload: ${record.payload.toHexString()}")
+                    Ndef.get(tag)?.let { nDef ->
+                        Text("Ndef: ")
+                        Text("Type: ${nDef.type}")
+                        Text("Connected: ${nDef.isConnected}")
+                        Text("Writable: ${nDef.isWritable}")
+                        nDef.cachedNdefMessage?.records?.forEach { record ->
+                            Text("Cached Record #${record.id}")
+                            Text("-TNF: ${record.tnf}")
+                            Text("-Type: ${record.type.toHexString()}")
+                            Text("-Payload: ${record.payload.toHexString()}")
+                        }
+                        nDef.ndefMessage?.records?.forEach { record ->
+                            Text("Message Record #${record.id}")
+                            Text("-TNF: ${record.tnf}")
+                            Text("-Type: ${record.type.toHexString()}")
+                            Text("-Payload: ${record.payload.toHexString()}")
+                        }
                     }
                 }
 
@@ -169,23 +178,24 @@ fun NfcExampleTag(tag: Tag) {
                 }
 
                 "android.nfc.tech.MifareClassic" -> {
-                    val mc = MifareClassic.get(tag)
-                    Text("MifareClassic: ")
-                    Text("-Type: " + when (mc.type) {
-                        MifareClassic.TYPE_CLASSIC -> "TYPE_CLASSIC"
-                        MifareClassic.TYPE_PLUS -> "TYPE_PLUS"
-                        MifareClassic.TYPE_PRO -> "TYPE_PRO"
-                        else -> "TYPE_UNKNOWN"
-                    })
-                    Text("-Size: " + when (mc.size) {
-                        MifareClassic.SIZE_MINI -> "SIZE_MINI"
-                        MifareClassic.SIZE_1K -> "SIZE_1K"
-                        MifareClassic.SIZE_2K -> "SIZE_2K"
-                        MifareClassic.SIZE_4K -> "SIZE_4K"
-                        else -> "SIZE_UNKNOWN"
-                    })
-                    Text("-Block Count: ${mc.blockCount}")
-                    Text("-Sector Count: ${mc.sectorCount}")
+                    MifareClassic.get(tag)?.let { mc ->
+                        Text("MifareClassic: ")
+                        Text("-Type: " + when (mc.type) {
+                            MifareClassic.TYPE_CLASSIC -> "TYPE_CLASSIC"
+                            MifareClassic.TYPE_PLUS -> "TYPE_PLUS"
+                            MifareClassic.TYPE_PRO -> "TYPE_PRO"
+                            else -> "TYPE_UNKNOWN"
+                        })
+                        Text("-Size: " + when (mc.size) {
+                            MifareClassic.SIZE_MINI -> "SIZE_MINI"
+                            MifareClassic.SIZE_1K -> "SIZE_1K"
+                            MifareClassic.SIZE_2K -> "SIZE_2K"
+                            MifareClassic.SIZE_4K -> "SIZE_4K"
+                            else -> "SIZE_UNKNOWN"
+                        })
+                        Text("-Block Count: ${mc.blockCount}")
+                        Text("-Sector Count: ${mc.sectorCount}")
+                    }
                 }
 
                 "android.nfc.tech.MifareUltralight" -> {

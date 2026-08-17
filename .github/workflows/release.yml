@@ -16,10 +16,10 @@ jobs:
       with:
         fetch-depth: 0
     
-    - name: Set up JDK 17
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
     
     - name: Set up Android SDK
@@ -35,15 +35,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
     
-    - name: Restore Keystore File
-      if: ${{ github.event_name == 'push' }}
-      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > ${{ secrets.KEYSTORE_FILE_NAME }}
-    
     - name: Restore gradle.properties
       if: ${{ github.event_name == 'push' }}
       run: |
         mkdir -p ~/.gradle
-        echo "${{ secrets.BUILD_GRADLE_FILE }}" | base64 -d > ~/.gradle/gradle.properties
+        echo "${{ secrets.GRADLE_PROPERTIES_FILE }}" | base64 -d > ~/.gradle/gradle.properties
+    
+    - name: Restore Keystore File
+      if: ${{ github.event_name == 'push' }}
+      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > ~/.gradle/ynsrc.jks
     
     - name: Release Version Info
       run: |        
